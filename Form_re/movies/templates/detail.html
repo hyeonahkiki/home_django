@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block body %}
+        {{movie.title}}
+        <hr>
+        {{movie.audience}}
+        <hr>
+        {{movie.open_date}}
+        <hr>
+        <a href="{% url 'movies:delete' movie.id %}">삭제하기</a>
+        <a href="{% url 'movies:update' movie.id %}">수정하기</a>
+    <hr>
+    <form action="{% url 'movies:comment_create' movie.id %}" method="POST">
+        {% csrf_token %}
+        {{comment_form.as_p}}
+        <input type="submit">
+    </form>
+        {% for comment in movie.comment_set.all %}
+            <p>{{comment.content}}</p>
+        {% endfor %}
+{% endblock %}
