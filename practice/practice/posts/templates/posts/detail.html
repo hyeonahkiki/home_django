@@ -1,0 +1,27 @@
+{% extends 'posts/base.html' %}
+{% block body %}
+<div>
+    {{post.title}} 
+    {{post.content}}
+</div>
+    {% if user in post.like_users.all %}
+    <a href="{% url 'posts:like' post.id %}">좋아요취소</a>
+    {% else %}
+    <a href="{% url 'posts:like' post.id %}">좋아요 {{post.like_users.count}}</a>
+    {% endif %}
+    <a href="{% url 'posts:update' post.id %}">수정하기</a>
+    <a href="{% url 'posts:delete' post.id %}">삭제하기</a>
+
+<!-- url 입력을 잘하기!! 이렇게 써놔야 다시 돌아올 수 있고 저장된다. -->
+<form action="{%url 'posts:comment_create' post.id%}" method="POST">
+    {% csrf_token %}
+    {{comment_form}}
+    <input type="submit" class="btn btn-info">
+</form>
+<!-- 댓글보이게 하려면 이렇게 뽑아내야한다. -->
+    {% for comment in post.comment_set.all %}
+    {{comment.content}} 
+    <a href="{% url 'posts:comment_delete' post.id comment.id %}">댓글삭제</a>
+    <hr>
+    {% endfor %}
+{% endblock %}

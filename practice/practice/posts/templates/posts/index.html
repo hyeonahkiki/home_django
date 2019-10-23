@@ -1,0 +1,8 @@
+{% extends 'posts/base.html' %}
+{% block body %}
+  <h1>시작</h1>
+  {% for post in posts %}
+    <a href="{% url 'posts:detail' post.id %}">{{post.title}}</a>
+    
+  {% endfor %}
+{% endblock %}
